@@ -1,0 +1,8 @@
+# Dossier de config Claude Code
+.claude/
+
+# Script de génération des données (usage interne)
+extract_mapping.py
+
+# Sources brutes (Excel, PDF)
+sources/

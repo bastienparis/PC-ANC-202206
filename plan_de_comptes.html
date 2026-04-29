@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Comptes Général — ANC 2022-06</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="plan_de_comptes.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-title">
+    <div class="header-logo">PCG</div>
+    <h1>Plan de Comptes Général <em>— ANC 2022-06</em></h1>
+  </div>
+  <div class="search-wrap">
+    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="text" id="search-input" placeholder="Numéro ou libellé de compte…"
+           autocomplete="off" spellcheck="false" aria-label="Rechercher un compte">
+    <button class="search-clear" id="search-clear" aria-label="Effacer la recherche" title="Effacer">&#x2715;</button>
+    <span class="search-kbd">/ ou Ctrl+F</span>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" data-tab="plan" id="tab-plan">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+    Plan de comptes
+  </button>
+  <button class="tab-btn" data-tab="corr" id="tab-corr">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+      <polyline points="13 6 19 12 13 18"/>
+    </svg>
+    Correspondance
+  </button>
+</nav>
+
+<div class="stats-bar">
+  <span id="stat-total"><strong>837</strong> comptes</span>
+  <span class="stat-sep">|</span>
+  <span id="stat-acc"><span class="stat-dot dot-acc"></span><strong>281</strong> commentaires de compte</span>
+  <span class="stat-sep">|</span>
+  <span id="stat-sc"><span class="stat-dot dot-sc"></span><strong>455</strong> commentaires de sous-classe</span>
+</div>
+
+<main class="main">
+
+  <!-- ── Vue Plan de comptes ───────────────────────────────────── -->
+  <div id="view-plan" class="tab-view active">
+    <div class="class-nav" id="class-nav"></div>
+    <div class="pcg-table" id="pcg-table">
+      <div class="col-header">
+        <span>Numéro</span>
+        <span>Libellé</span>
+        <span></span>
+      </div>
+      <div id="table-body"></div>
+    </div>
+    <div id="no-results">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <line x1="8" y1="11" x2="14" y2="11"/>
+      </svg>
+      <p>Aucun résultat</p>
+      <small>Essayez un autre numéro ou libellé</small>
+    </div>
+  </div>
+
+  <!-- ── Vue Correspondance ────────────────────────────────────── -->
+  <div id="view-corr" class="tab-view">
+
+    <div class="corr-controls">
+      <div class="filter-group">
+        <span class="filter-group-label">Filtre</span>
+        <button class="pill-btn active" data-type="all">Tous <span class="pill-count" id="cnt-all">992</span></button>
+        <button class="pill-btn" data-type="i">Inchangé <span class="pill-count" id="cnt-i">591</span></button>
+        <button class="pill-btn" data-type="l">Libellé modifié <span class="pill-count" id="cnt-l">160</span></button>
+        <button class="pill-btn" data-type="n">N° modifié <span class="pill-count" id="cnt-n">76</span></button>
+        <button class="pill-btn" data-type="s">Supprimé <span class="pill-count" id="cnt-s">163</span></button>
+        <button class="pill-btn" data-type="r">Répartition <span class="pill-count" id="cnt-r">2</span></button>
+      </div>
+      <div class="filter-group">
+        <span class="filter-group-label">Rechercher dans</span>
+        <div class="version-seg">
+          <button class="version-btn active" data-version="both">Les deux</button>
+          <button class="version-btn" data-version="old">PCG actuel</button>
+          <button class="version-btn" data-version="new">ANC 2022-06</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="corr-table" id="corr-table">
+      <div class="corr-header">
+        <span>N° actuel</span>
+        <span>Libellé PCG actuel</span>
+        <span>Nature</span>
+        <span>N° ANC 2022-06</span>
+        <span>Libellé ANC 2022-06</span>
+      </div>
+      <div id="corr-body"></div>
+    </div>
+
+    <div id="corr-no-results">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <line x1="8" y1="11" x2="14" y2="11"/>
+      </svg>
+      <p>Aucun résultat</p>
+      <small>Essayez un autre numéro ou libellé</small>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- Modal (partagée entre les deux vues) -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-num">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-num" id="modal-num"></div>
+      <div class="modal-lib" id="modal-lib"></div>
+      <div class="modal-meta" id="modal-meta"></div>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <span class="modal-footer-hint">Appuyez sur <kbd>Échap</kbd> pour fermer</span>
+      <button class="btn-close" id="btn-close">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<button id="back-top" title="Haut de page" aria-label="Retour en haut de page">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <polyline points="18 15 12 9 6 15"/>
+  </svg>
+</button>
+
+<script src="mapping_data.js"></script>
+<script src="plan_de_comptes.js"></script>
+<script src="correspondance.js"></script>
+</body>
+</html>
